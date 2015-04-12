@@ -1,0 +1,19 @@
+{
+  "name": "jsonextendor",
+  "version": "1.0.0",
+  "description": "Allows you to extend json file but concatening in definied files",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha test"
+  },
+  "author": "Farzad Qasim",
+  "license": "ISC",
+  "dependencies": {
+    "bluebird": "~2.9.24"
+  },
+  "devDependencies": {
+    "mocha": "~2.2.4",
+    "chai": "~2.2.0",
+    "proxyquire": "~1.4.0"
+  }
+}

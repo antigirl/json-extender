@@ -1,26 +1,47 @@
-var _ = require('lodash');
+var Promise = require('bluebird');
 var fileA = require('./fileA.json');
-var fileB = require('./fileB.json');
 
-var jsonKey = Object.keys(fileB)[0];
-var resolvedJson = fileB[jsonKey];
-
-var pointer = '>>file';
-
-
-function findThemKeys(file) {
-    _.forEach(file, function (value, key) {
-        if (value !== null && typeof value === "object") { //arrays - map?
-            findThemKeys(value);
-        }
-        if (key === pointer) {
-            file[key] = resolvedJson;
-
-            Object.defineProperty(file, jsonKey,
-                Object.getOwnPropertyDescriptor(file, key));
-            delete file[key];
-        }
+function findPointer(json, pointer) {
+    return new Promise(function (resolve, reject) {
+        Promise.each(Object.keys(json), function (key) {
+            var value = json[key];
+            if (typeof value === "object") {
+                return findPointer(value, pointer);
+            }
+            if (key.indexOf(pointer) != -1) {
+                extendJson(json, value, key)
+                    .catch(function (e) {
+                        reject(e);
+                    });
+            }
+        }).done(function () {
+            resolve(json);
+        });
     });
 }
 
-findThemKeys(fileA);
+function extendJson(json, filePath, key) {
+    return new Promise(function (resolve, reject) {
+        readFile(filePath)
+            .then(function (file) {
+                var fileJsonKey = Object.keys(file)[0];
+                json[key] = file[fileJsonKey];
+                json[fileJsonKey] = json[key];
+                delete json[key];
+                resolve(json);
+            }).catch(function (e) {
+                reject(e);
+            });
+
+    });
+}
+
+function readFile(filePath) {
+    var file = require(filePath);
+    if (file) {
+        return Promise.resolve(file);
+    }
+    return Promise.reject(filePath, ' file not found', e);
+}
+
+module.exports = findPointer;

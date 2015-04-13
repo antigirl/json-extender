@@ -1,10 +1,9 @@
 # json-extender
 Allows you to extend JSON file,
-Looks for pointer key with a path value
+Looks for pointer key with a path value. Keys need to be unique.
 ```
 ">>fileB": "./fileB.json"
 ```
-Keys need to be unique.
 
 ```
 var Promise = require('bluebird');

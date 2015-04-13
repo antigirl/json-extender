@@ -1,8 +1,9 @@
 # json-extender
 Allows you to extend JSON file,
 Looks for pointer key with a path value
+```
 ">>fileB": "./fileB.json"
-
+```
 Keys need to be unique.
 
 ```

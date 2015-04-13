@@ -60,7 +60,7 @@ describe('JSON extendor', function () {
         });
     });
 
-    it.skip('should catch if file is not found', function (done) {
+    it('should catch if file is not found', function (done) {
         var fileA = {
             'slot1': 'val1',
             '<<fileX': './fileX.json'
@@ -68,7 +68,9 @@ describe('JSON extendor', function () {
 
         var fileX = {};
         extendJSON = require('./index');
-        extendJSON(fileA, '<<').catch(function (e) {
+        extendJSON(fileA, '<<').catch(function (err) {
+            err.toString().should.contain('Cannot find module');
+            err.toString().should.contain('fileX');
             done();
         });
 

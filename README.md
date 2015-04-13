@@ -5,6 +5,7 @@ Looks for pointer key with a path value
 
 Keys need to be unique.
 
+```
 var Promise = require('bluebird');
 var extendJSON = require('./index');
 var fileA = require('./fileA.json');
@@ -14,5 +15,5 @@ extendJSON(fileA, '>>').then(function (e) {
 }).catch(function (e) {
     console.log('error', e);
 });
-
+```
 

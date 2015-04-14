@@ -26,7 +26,7 @@ describe('JSON extendor', function () {
                 }
             });
             done();
-        });
+        }).catch(done);
     });
 
     it('should allow the JSON to be extended with a file (with no keys i.e component)', function (done) {
@@ -57,7 +57,7 @@ describe('JSON extendor', function () {
                 }
             });
             done();
-        });
+        }).catch(done);
     });
 
     it('should catch if file is not found', function (done) {
@@ -72,7 +72,7 @@ describe('JSON extendor', function () {
             err.toString().should.contain('Cannot find module');
             err.toString().should.contain('fileX');
             done();
-        });
+        }).catch(done);
 
     });
 

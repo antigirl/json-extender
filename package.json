@@ -1,10 +1,10 @@
 {
   "name": "jsonextendor",
   "version": "1.0.0",
-  "description": "Allows you to extend json file but concatening in definied files",
+  "description": "Allows you to extend json file buy concatening in defined files",
   "main": "index.js",
   "scripts": {
-    "test": "mocha tests"
+    "test": "mocha -R spec tests"
   },
   "author": "Farzad Qasim",
   "license": "ISC",

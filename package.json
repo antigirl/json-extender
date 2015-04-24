@@ -1,19 +1,21 @@
 {
-  "name": "jsonextendor",
-  "version": "1.0.0",
-  "description": "Allows you to extend json file buy concatening in defined files",
+  "name": "extend-json",
+  "version": "1.5.3",
+  "description": "This module will allow you to extend a JSON file with either a function or another JSON file. This is to allow inheritance, as well as to enforce DRY principles.",
   "main": "index.js",
   "scripts": {
     "test": "mocha -R spec tests"
   },
-  "author": "Farzad Qasim",
+  "repository": "https://github.com/wmonk/extend-json",
+  "author": "William Monk",
   "license": "ISC",
-  "dependencies": {
-    "bluebird": "~2.9.24"
-  },
   "devDependencies": {
-    "mocha": "~2.2.4",
     "chai": "~2.2.0",
+    "mocha": "~2.2.4",
     "proxyquire": "~1.4.0"
+  },
+  "dependencies": {
+    "bluebird": "~2.9.24",
+    "lodash": "^3.6.0"
   }
 }

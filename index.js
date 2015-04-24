@@ -1,24 +1,53 @@
 var Promise = require('bluebird');
+var path = require('path');
+var _ = require('lodash');
 
-function extendJson(json, pointer) {
+var array = [];
+
+function findPointer(json, options) {
+    if (_.isArray(json)) {
+        array = json;
+    }
+
     Object.keys(json).map(function (key) {
-        if (typeof json[key] === 'object') {
-            return extendJson(json[key], pointer);
+        if (typeof json[key] === 'object' && json[key] !== null && key.indexOf(options.pointer) === -1) {
+            return findPointer(json[key], options);
         }
 
-        if (key.indexOf(pointer) !== -1) {
-            var extendedJson = require(json[key]);
-            newKey = Object.keys(extendedJson)[0];
-            json[newKey] = extendedJson[newKey];
-            delete json[key];
+        if (key.indexOf(options.pointer) !== -1) {
+            extendJson(json, key, array, options);
         }
     });
 
     return json;
 }
 
-module.exports = function(json, pointer) {
-    return Promise.try(function() {
-        return extendJson(json, pointer);
+function extendJson(json, key, jsonArray, options) {
+    var extendedJson = require(path.join(options.path, json[key].file));
+
+    if (json[key].replace) {
+        var arrayIndex = _.findIndex(jsonArray, json);
+        jsonArray[arrayIndex] = extendedJson;
+    } else {
+        var newKey = key.replace(options.pointer, '');
+        json[newKey] = extendedJson;
+        delete json[key];
+    }
+}
+
+
+
+module.exports = function (json, options) {
+    if (!options) {
+        options = {};
+    }
+
+    options = _.defaults(options, {
+        pointer: '>>',
+        path: './'
+    });
+
+    return Promise.try(function () {
+        return findPointer(json, options);
     });
 };
